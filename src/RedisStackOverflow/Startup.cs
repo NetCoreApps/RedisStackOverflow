@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 using RedisStackOverflow.ServiceInterface;
 using System;
 using ServiceStack;
@@ -22,10 +22,8 @@ namespace RedisStackOverflow
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            loggerFactory.AddConsole();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -43,7 +41,7 @@ namespace RedisStackOverflow
         /// <summary>
         /// Initializes a new instance of your ServiceStack application, with the specified name and assembly containing the services.
         /// </summary>
-        public AppHost() : base("Redis StackOverflow", typeof(QuestionsService).GetAssembly()) 
+        public AppHost() : base("Redis StackOverflow", typeof(QuestionsService).Assembly) 
         { 
             AppSettings = new MultiAppSettings(
                 new EnvironmentVariableSettings(),
